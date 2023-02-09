@@ -2,4 +2,23 @@
 
 <PageTitle>Index</PageTitle>
 
-<Definitions />
+<MudContainer Class="mt-16">
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">LTC Cloud Dictionary Words</MudText>
+    <MudText Typo="Typo.body1" Align="Align.Center" GutterBottom="true">A list of all defintions in the LTC dictionary, click the button below to submit your own.</MudText>
+   
+    
+    <MudContainer Class="d-flex align-center justify-center mud-width-full"  style="height:5vh;">
+        <MudButton Href="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank" Variant="Variant.Filled"
+        EndIcon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" Disabled=@disabled>
+        Submit a Definition
+    </MudButton>
+           
+</MudContainer >
+
+    
+    <Definitions />
+</MudContainer>
+
+@code {
+    bool disabled = false;
+}

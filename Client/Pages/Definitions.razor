@@ -5,20 +5,22 @@
 @if (words == null)
 {
     <MudContainer Class="mt-16">
-    
+
     <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
-    </MudContainer>
+</MudContainer>
 }
 else
 {
 
     <MudContainer Class="mt-16">
-       
-        <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
+
+    <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start"
+        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"
+        @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
 
 
-        <MudGrid Class="mt-8">
-            @foreach (var item in searchResults)
+    <MudGrid Class="mt-8">
+        @foreach (var item in searchResults)
             {
                 <MudItem xs="12" sm="6" md="4">
 
@@ -26,7 +28,10 @@ else
                     <MudCard>
                         <MudCardContent>
 
-                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center">"@item.Word"</MudText>
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center">@item.Word</MudText>
+
+
+
 
 
                             <MudDivider DividerType="DividerType.Middle" Class="my-3" />
@@ -35,12 +40,15 @@ else
                                 <MudChip Color="Color.Default">@item.Tag</MudChip>
                             
                         </MudCardContent>
-            
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary"
+                        Href=@($"{item.Author.Link}")>Submitted by: @item.Author.Name</MudButton>
+                           
+                        </MudCardActions>
                     </MudCard>
 
                 </MudItem>
             }
-
         </MudGrid>
     </MudContainer>
 
@@ -49,14 +57,16 @@ else
 @code {
     private WordDefinition[] words;
     private string searchTerm { get; set; }
-   
+
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            words = await Http.GetFromJsonAsync<WordDefinition[]>("https://clouddictionary.azurewebsites.net/api/GetDefinitions?code=NY6FWq01qRLmK19uB84elyyH6AvVeU3ycoe0B641xHL3AzFue4o5gA==") ?? new WordDefinition[] { };
-            
+            words = await
+            Http.GetFromJsonAsync<WordDefinition[]>("https://clouddictionary.azurewebsites.net/api/GetDefinitions?code=NY6FWq01qRLmK19uB84elyyH6AvVeU3ycoe0B641xHL3AzFue4o5gA==")
+            ?? new WordDefinition[] { };
+
         }
         catch (Exception ex)
         {
@@ -64,9 +74,9 @@ else
         }
     }
     private IEnumerable<WordDefinition> searchResults =>
-        words.Where(p => string.IsNullOrEmpty(searchTerm)
-        || p.Word.ToLower().Contains(searchTerm.ToLower())
+    words.Where(p => string.IsNullOrEmpty(searchTerm)
+    || p.Word.ToLower().Contains(searchTerm.ToLower()) || p.Author.Name.ToLower().Contains(searchTerm.ToLower())
     );
 
-   
+
 }

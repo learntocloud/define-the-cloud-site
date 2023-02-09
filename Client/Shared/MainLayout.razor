@@ -5,8 +5,8 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <MudSpacer />        
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
         <MudDrawerHeader>
@@ -14,10 +14,32 @@
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
-    <MudMainContent>
-        @Body
+    <MudMainContent Class="mudblazor-main-content">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            @Body
+        </MudContainer>
+
+        <MudScrollToTop TopOffset="400">
+            <MudFab Icon="@Icons.Material.Filled.KeyboardArrowUp" Color="MudBlazor.Color.Primary" />
+        </MudScrollToTop>
     </MudMainContent>
 </MudLayout>
+
+<MudContainer class="mt-16" MaxWidth="MaxWidth.ExtraSmall">
+    <MudText Typo="Typo.body1" Align="Align.Center">Made with Azure Functions, <MudIcon Icon="@Icons.Material.Filled.Favorite" Color="MudBlazor.Color.Error" Title="Favorite" /> and Blazor</MudText>
+
+  
+   <MudButton Link="https://github.com/madebygps/cloud-dictionary-site"
+           Target="_blank"
+           Variant="Variant.Text"
+           EndIcon="@Icons.Custom.Brands.GitHub"
+           Color="MudBlazor.Color.Secondary"
+           Style="text-transform:none"
+           FullWidth="true"
+           >
+    GitHub Link
+</MudButton>
+</MudContainer>
 @code {
     bool _drawerOpen = false;
 
