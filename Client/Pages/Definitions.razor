@@ -5,19 +5,22 @@
 @if (words == null)
 {
     <MudContainer Class="mt-16">
-
     <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
 </MudContainer>
 }
 else
 {
-
     <MudContainer Class="mt-16">
+
+    <div class="d-flex justify-center">
+        <MudText Typo="Typo.h3" Color="Color.Primary">@words.Count()</MudText>
+        <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Default">Definitions</MudText>
+    </div>
 
     <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start"
         AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"
-        @bind-Value:event="TextChanged" Immediate="true"></MudTextField>
-
+        @bind-Value:event="TextChanged" Immediate="true">
+    </MudTextField>
 
     <MudGrid Class="mt-8">
         @foreach (var item in searchResults)
@@ -29,7 +32,8 @@ else
                         <MudCardContent>
 
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"{item.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.h6" Color="Color.Default">@item.Word</MudLink>
+                                <MudLink Href="@($"{item.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.h6"
+                            Color="Color.Default">@item.Word</MudLink>
                             </MudText>
                             <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@item.Content</MudText>
 
@@ -41,9 +45,10 @@ else
 
                         </MudCardContent>
                         <MudCardActions>
-                            
-                                <MudLink Href="@($"{item.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1" Color="Color.Primary">Submitted by: @item.Author.Name</MudLink>
-                            
+
+                            <MudLink Href="@($"{item.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
+                        Color="Color.Primary">Submitted by: @item.Author.Name</MudLink>
+
 
                         </MudCardActions>
                     </MudCard>
