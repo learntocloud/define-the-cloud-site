@@ -29,6 +29,7 @@ else
                         <MudCardContent>
 
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center">@item.Word</MudText>
+                            <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@item.Content</MudText>
 
 
 
@@ -76,6 +77,7 @@ else
     private IEnumerable<WordDefinition> searchResults =>
     words.Where(p => string.IsNullOrEmpty(searchTerm)
     || p.Word.ToLower().Contains(searchTerm.ToLower()) || p.Author.Name.ToLower().Contains(searchTerm.ToLower())
+    || p.Tag.ToLower().Contains(searchTerm.ToLower())
     );
 
 
