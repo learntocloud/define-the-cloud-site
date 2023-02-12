@@ -28,7 +28,7 @@ else
                     <MudCard>
                         <MudCardContent>
 
-                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Secondary" Href=@($"{item.LearnMoreUrl}")>@item.Word
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default" Href=@($"{item.LearnMoreUrl}")>@item.Word
                             </MudText>
                             <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@item.Content</MudText>
 
@@ -36,7 +36,7 @@ else
                             <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
 
-                            <MudChip Color="Color.Default">@item.Tag</MudChip>
+                            <MudChip Variant="Variant.Outlined" Color="Color.Secondary">@item.Tag</MudChip>
 
                         </MudCardContent>
                         <MudCardActions>
