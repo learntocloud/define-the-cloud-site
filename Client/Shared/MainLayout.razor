@@ -1,16 +1,44 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="_currentTheme" />
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudSpacer />        
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
+            OnClick="@((e) => DrawerToggle())" />
+    
+
+        <MudSpacer />
+        <MudHidden Breakpoint="MudBlazor.Breakpoint.MdAndUp" Invert="true">
+            <MudTooltip Text="Toggle light/dark theme">
+                <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="MudBlazor.Color.Inherit"
+                    OnClick="@((e) => DarkMode())" />
+
+            </MudTooltip>
+            <MudTooltip Text="Check out the repo">
+                <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit"
+                    Link="https://github.com/madebygps/cloud-dictionary-site" Target="_blank" />
+            </MudTooltip>
+
+        </MudHidden>
+        <MudHidden Breakpoint="MudBlazor.Breakpoint.SmAndDown" Invert="true">
+            <MudMenu Icon="@Icons.Filled.Settings" Color="MudBlazor.Color.Inherit" Dense="true"
+                Direction="MudBlazor.Direction.Right" OffsetY="true">
+                <div class="px-2">
+                    <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="MudBlazor.Color.Inherit"
+                        OnClick="@((e) => DarkMode())" />
+
+                    <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit" />
+                </div>
+            </MudMenu>
+        </MudHidden>
+
+
+
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h5" Class="mt-1">Application</MudText>
+            <MudText Typo="Typo.h5" Class="mt-1">LTC Dictionary</MudText>
         </MudDrawerHeader>
         <NavMenu />
     </MudDrawer>
@@ -26,19 +54,15 @@
 </MudLayout>
 
 <MudContainer class="mt-16" MaxWidth="MaxWidth.ExtraSmall">
-    <MudText Typo="Typo.body1" Align="Align.Center">Made with Azure Functions, <MudIcon Icon="@Icons.Material.Filled.Favorite" Color="MudBlazor.Color.Error" Title="Favorite" /> and Blazor</MudText>
+    <MudText Typo="Typo.body1" Align="Align.Center">Made with Azure Functions,
+        <MudIcon Icon="@Icons.Material.Filled.Favorite" Color="MudBlazor.Color.Error" Title="Favorite" /> and Blazor
+    </MudText>
 
-  
-   <MudButton Link="https://github.com/madebygps/cloud-dictionary-site"
-           Target="_blank"
-           Variant="Variant.Text"
-           EndIcon="@Icons.Custom.Brands.GitHub"
-           Color="MudBlazor.Color.Secondary"
-           Style="text-transform:none"
-           FullWidth="true"
-           >
-    GitHub Link
-</MudButton>
+
+    <MudButton Link="https://github.com/madebygps/cloud-dictionary-site" Target="_blank" Variant="Variant.Text"
+        EndIcon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Secondary" Style="text-transform:none"
+        FullWidth="true">
+    </MudButton>
 </MudContainer>
 @code {
     bool _drawerOpen = false;
@@ -47,4 +71,57 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+     protected override void OnInitialized()
+    {
+        _currentTheme = _defaultTheme;
+
+
+    }
+
+    #region Theme
+
+    private void DarkMode()
+    {
+        if (_currentTheme == _defaultTheme)
+        {
+            _currentTheme = _darkTheme;
+        }
+        else
+        {
+            _currentTheme = _defaultTheme;
+        }
+    }
+
+    private MudTheme _currentTheme = new MudTheme();
+    private readonly MudTheme _defaultTheme =
+        new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Black = "#272c34"
+            }
+        };
+    private readonly MudTheme _darkTheme =
+        new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Black = "#27272f",
+                Background = "#32333d",
+                BackgroundGrey = "#27272f",
+                Surface = "#373740",
+                DrawerBackground = "#27272f",
+                DrawerText = "rgba(255,255,255, 0.50)",
+                AppbarBackground = "#27272f",
+                AppbarText = "rgba(255,255,255, 0.70)",
+                TextPrimary = "rgba(255,255,255, 0.70)",
+                TextSecondary = "rgba(255,255,255, 0.50)",
+                ActionDefault = "#adadb1",
+                ActionDisabled = "rgba(255,255,255, 0.26)",
+                ActionDisabledBackground = "rgba(255,255,255, 0.12)",
+                DrawerIcon = "rgba(255,255,255, 0.50)"
+            }
+        };
+
+    #endregion
 }

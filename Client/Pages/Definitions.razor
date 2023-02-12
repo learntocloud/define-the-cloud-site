@@ -28,23 +28,21 @@ else
                     <MudCard>
                         <MudCardContent>
 
-                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center">@item.Word</MudText>
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Secondary">@item.Word
+                            </MudText>
                             <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@item.Content</MudText>
-
-
-
 
 
                             <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
-                            
-                                <MudChip Color="Color.Default">@item.Tag</MudChip>
-                            
+
+                            <MudChip Color="Color.Default">@item.Tag</MudChip>
+
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary"
-                        Href=@($"{item.Author.Link}")>Submitted by: @item.Author.Name</MudButton>
-                           
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" Href=@($"{item.Author.Link}")>Submitted by:
+                                @item.Author.Name</MudButton>
+
                         </MudCardActions>
                     </MudCard>
 
