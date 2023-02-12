@@ -28,7 +28,8 @@ else
                     <MudCard>
                         <MudCardContent>
 
-                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default" Href=@($"{item.LearnMoreUrl}")>@item.Word
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
+                                <MudLink Href="@($"{item.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.h6" Color="Color.Default">@item.Word</MudLink>
                             </MudText>
                             <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@item.Content</MudText>
 
@@ -40,8 +41,9 @@ else
 
                         </MudCardContent>
                         <MudCardActions>
-                            <MudButton Variant="Variant.Text" Color="Color.Primary" Href=@($"{item.Author.Link}")>Submitted by:
-                                @item.Author.Name</MudButton>
+                            
+                                <MudLink Href="@($"{item.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1" Color="Color.Primary">Submitted by: @item.Author.Name</MudLink>
+                            
 
                         </MudCardActions>
                     </MudCard>
