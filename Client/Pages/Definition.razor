@@ -1,14 +1,16 @@
-@page "/definition/{Id}"
+@page "/definition/{WordSlug}"
 @inject HttpClient Http
+@using System.Net
 
 @code {
     [Parameter]
-    public string? Id { get; set; }
+    public string? WordSlug { get; set; }
     private WordDefinition? definition;
     protected override async Task OnInitializedAsync()
     {
+        var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
         definition = await
-        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinition?code=9mE4PEqYhq4UimqZQkOx9w7ebDGakalF94F2zgasYox-AzFu4TQ3Ug==&id={Id}");
+        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
 
     }
 }
