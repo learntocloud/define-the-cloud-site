@@ -1,16 +1,23 @@
-@page "/definition/{WordSlug}"
+@page "/{WordSlug}"
 @inject HttpClient Http
 @using System.Net
 
 @code {
     [Parameter]
     public string? WordSlug { get; set; }
+    private WordDefinition[] words;
     private WordDefinition? definition;
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
         definition = await
         Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
+
+        words = await
+        Http.GetFromJsonAsync<WordDefinition[]>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=10")
+        ?? new WordDefinition[] { };
+
+        //https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==
 
     }
 }
@@ -26,22 +33,22 @@ else
 {
 
     <MudContainer Class="mt-16">
-        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">@definition.Word</MudText>
+        <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word</MudText>
+        <MudText Typo="Typo.h4" Align="Align.Center">
+            <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
+                Color="Color.Primary" Align="Align.Center">Author: @definition.Author.Name</MudLink>
+        </MudText>
+        <MudText Typo="Typo.h4" Align="Align.Center">@definition.Abbreviation</MudText>
 
 
-        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
+        <MudText Typo="Typo.h3" Align="Align.Center">
             <MudChip Variant="Variant.Outlined" Color="Color.Secondary">@definition.Tag</MudChip>
         </MudText>
 
-        <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@definition.Content</MudText>
+        <MudText Typo="Typo.body1" Align="Align.Center">@definition.Content</MudText>
 
 
-        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
-            <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
-                Color="Color.Primary" Align="Align.Center">Submitted by: @definition.Author.Name</MudLink>
-        </MudText>
-
-        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
+        <MudText Typo="Typo.h3" Align="Align.Center">
             <MudLink Href="@($"{definition.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
                 Color="Color.Info">Learn more</MudLink>
         </MudText>
@@ -49,14 +56,28 @@ else
 
     </MudContainer>
 
-    <MudContainer Class="d-flex align-center justify-center mud-width-full" style="height:5vh;">
-        <MudButton Href="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank"
-            Variant="Variant.Filled" EndIcon="@Icons.Custom.Brands.GitHub" Color="Color.Primary">
-            Submit a Definition
-        </MudButton>
+    <MudContainer Class="mt-16">
+
+        <div class="d-flex justify-center">
+
+            <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Default">Here are some more words with this tag</MudText>
+        </div>
+
+        <MudGrid Class="mt-8">
+            @foreach (var word in words)
+            {
+                var wordSlug = WebUtility.UrlEncode(word.Word.Replace("-", "__").Replace(" ", "-"));
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
+                                <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
+                                    Color="Color.Default">@word.Word</MudLink>
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
     </MudContainer>
 }
-
-
-
-

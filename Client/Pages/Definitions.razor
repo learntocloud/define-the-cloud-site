@@ -28,32 +28,18 @@ else
             {
                 var wordSlug = WebUtility.UrlEncode(item.Word.Replace("-", "__").Replace(" ", "-"));
                 <MudItem xs="12" sm="6" md="4">
-
-
                     <MudCard>
                         <MudCardContent>
-
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"/definition/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
+                                <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
                                     Color="Color.Default">@item.Word</MudLink>
-
                             </MudText>
-
-
-                            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
-
-
-                            <MudChip Variant="Variant.Outlined" Color="Color.Secondary">@item.Tag</MudChip>
-
                         </MudCardContent>
-
                     </MudCard>
-
                 </MudItem>
             }
         </MudGrid>
     </MudContainer>
-
 }
 
 @code {
