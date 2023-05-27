@@ -1,0 +1,53 @@
+@page "/definition/{Id}"
+@inject HttpClient Http
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    private WordDefinition? definition;
+    protected override async Task OnInitializedAsync()
+    {
+        definition = await
+        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinition?code=9mE4PEqYhq4UimqZQkOx9w7ebDGakalF94F2zgasYox-AzFu4TQ3Ug==&id={Id}");
+
+    }
+}
+
+
+@if (definition == null)
+{
+    <MudContainer Class="mt-16">
+        <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
+    </MudContainer>
+}
+else
+{
+
+    <MudContainer Class="mt-16">
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">@definition.Word</MudText>
+
+
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
+            <MudChip Variant="Variant.Outlined" Color="Color.Secondary">@definition.Tag</MudChip>
+        </MudText>
+
+        <MudText Typo="Typo.body1" Class="my-5" Align="Align.Center">@definition.Content</MudText>
+
+
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
+            <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
+                Color="Color.Primary" Align="Align.Center">Submitted by: @definition.Author.Name</MudLink>
+        </MudText>
+
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">
+            <MudLink Href="@($"{definition.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
+                Color="Color.Info">Learn more</MudLink>
+        </MudText>
+
+
+    </MudContainer>
+}
+
+
+
+
