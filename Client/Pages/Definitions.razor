@@ -32,8 +32,13 @@ else
                         <MudCardContent>
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
                                 <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
-                                    Color="Color.Default">@item.Word</MudLink>
+                                    Color="Color.Default">@item.Word.ToLower()</MudLink>
                             </MudText>
+                            <MudText Typo="Typo.body2" Class="my-5" Align="Align.Center" Color="Color.Default">
+                                <MudLink Href="@($"{item.Author.Link}")" Underline="Underline.Hover"
+                                    Color="Color.Default">@item.Author.Name</MudLink>
+                            </MudText>
+                            
                         </MudCardContent>
                     </MudCard>
                 </MudItem>

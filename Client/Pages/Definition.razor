@@ -39,15 +39,18 @@ else
         <MudCard>
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word.ToLower</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">(@definition.Abbreviation)</MudText>
+                    <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word.ToLower()</MudText>
+                    @if (definition.Abbreviation != definition.Word)
+                    {
+                        <MudText Typo="Typo.h5" Align="Align.Center">@definition.Abbreviation</MudText>
+                    }
+                    
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
                 <MudText>@definition.Content</MudText>
                 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
-
-                <MudChip Color="Color.Secondary">@definition.Tag</MudChip>
+                <MudChip Icon="@Icons.Material.Filled.Tag" Label="true" Color="Color.Primary">@definition.Tag</MudChip>
             </MudCardContent>
             <MudCardActions>
                 <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"{definition.LearnMoreUrl}")">Read More
