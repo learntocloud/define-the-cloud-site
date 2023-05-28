@@ -32,29 +32,46 @@
 else
 {
 
-    <MudContainer Class="mt-16">
-        <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word</MudText>
-        <MudText Typo="Typo.h4" Align="Align.Center">
-            <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
-                Color="Color.Primary" Align="Align.Center">Author: @definition.Author.Name</MudLink>
-        </MudText>
-        <MudText Typo="Typo.h4" Align="Align.Center">@definition.Abbreviation</MudText>
+    <MudContainer Class="mt-8">
 
 
-        <MudText Typo="Typo.h3" Align="Align.Center">
-            <MudChip Variant="Variant.Outlined" Color="Color.Secondary">@definition.Tag</MudChip>
-        </MudText>
 
-        <MudText Typo="Typo.body1" Align="Align.Center">@definition.Content</MudText>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word.ToLower</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">(@definition.Abbreviation)</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText>@definition.Content</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-
-        <MudText Typo="Typo.h3" Align="Align.Center">
-            <MudLink Href="@($"{definition.LearnMoreUrl}")" Underline="Underline.Hover" Typo="Typo.subtitle1"
-                Color="Color.Info">Learn more</MudLink>
-        </MudText>
+                <MudChip Color="Color.Secondary">@definition.Tag</MudChip>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"{definition.LearnMoreUrl}")">Read More
+                </MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Secondary" Link="@($"{definition.Author.Link}")">@definition.Author.Name
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
 
 
     </MudContainer>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <MudContainer Class="mt-16">
 
