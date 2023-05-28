@@ -27,6 +27,7 @@ else
             @foreach (var item in searchResults)
             {
                 var wordSlug = WebUtility.UrlEncode(item.Word.Replace("-", "__").Replace(" ", "-"));
+                wordSlug = wordSlug.ToLower();
                 <MudItem xs="12" sm="6" md="4">
                     <MudCard>
                         <MudCardContent>
