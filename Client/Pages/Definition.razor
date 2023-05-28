@@ -35,67 +35,43 @@ else
     <MudContainer Class="mt-8">
 
 
+        <MudText Typo="Typo.h1" Align="Align.Left">@definition.Word.ToLower()</MudText>
+        @if (definition.Abbreviation != definition.Word)
+        {
+            <MudText Typo="Typo.subtitle1" Align="Align.Left" GutterBottom="true">@definition.Abbreviation.ToLower()</MudText>
+        }
+    
 
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h3" Align="Align.Center">@definition.Word.ToLower()</MudText>
-                    @if (definition.Abbreviation != definition.Word)
-                    {
-                        <MudText Typo="Typo.h5" Align="Align.Center">@definition.Abbreviation</MudText>
-                    }
-                    
-                </CardHeaderContent>
-            </MudCardHeader>
-            <MudCardContent>
-                <MudText>@definition.Content</MudText>
-                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
-                <MudChip Icon="@Icons.Material.Filled.Tag" Label="true" Color="Color.Primary">@definition.Tag</MudChip>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton Variant="Variant.Text" Color="Color.Primary" Link="@($"{definition.LearnMoreUrl}")">Read More
-                </MudButton>
-                <MudButton Variant="Variant.Text" Color="Color.Secondary" Link="@($"{definition.Author.Link}")">@definition.Author.Name
-                </MudButton>
-            </MudCardActions>
-        </MudCard>
+    
+        <MudLink Href="@($"{definition.Author.Link}")" Color="MudBlazor.Color.Secondary" Underline="Underline.Always">@definition.Author.Name</MudLink>
+        
+     
+        <MudText Align="Align.Justify" GutterBottom="true">@definition.Content</MudText>
 
+        <MudLink Href="@($"{definition.LearnMoreUrl}")">Learn More</MudLink>
 
-    </MudContainer>
+        <MudDivider DividerType="DividerType.FullWidth" Class="mt-4"/>
 
+  
+        <div class="d-flex justify-left">
 
-
-
-
-
-
-
-
-
-
-
-
-
-    <MudContainer Class="mt-16">
-
-        <div class="d-flex justify-center">
-
-            <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Default">Here are some more words with this tag</MudText>
+            <MudText Typo="Typo.h2" Class="ml-1 mt-5" Color="Color.Default"> explore more words:
+            </MudText>
         </div>
 
-        <MudGrid Class="mt-8">
+        <MudGrid Class="mt-2">
+            
+
             @foreach (var word in words)
             {
                 var wordSlug = WebUtility.UrlEncode(word.Word.Replace("-", "__").Replace(" ", "-"));
                 <MudItem xs="12" sm="6" md="4">
-                    <MudCard>
-                        <MudCardContent>
-                            <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
-                                    Color="Color.Default">@word.Word.ToLower()</MudLink>
+                    
+                            <MudText Class="my-2" Align="Align.Center" Color="Color.Default">
+                                <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" 
+                                    Color="Color.Default" Typo="Typo.body1">@word.Word.ToLower()</MudLink>
                             </MudText>
-                        </MudCardContent>
-                    </MudCard>
+                        
                 </MudItem>
             }
         </MudGrid>
