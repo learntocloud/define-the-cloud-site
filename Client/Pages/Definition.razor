@@ -92,7 +92,7 @@ else
                         <MudCardContent>
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
                                 <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
-                                    Color="Color.Default">@word.Word</MudLink>
+                                    Color="Color.Default">@word.Word.ToLower()</MudLink>
                             </MudText>
                         </MudCardContent>
                     </MudCard>
