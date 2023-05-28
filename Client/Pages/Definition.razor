@@ -32,46 +32,51 @@
 else
 {
 
-    <MudContainer Class="mt-16">
+    <MudContainer Class="mt-11">
+        <div class="d-flex">
 
+            <MudText Typo="Typo.h2" Align="Align.Left" Class="ml-0 mt-0">@definition.Word.ToLower()</MudText>
+            @if (definition.Abbreviation != definition.Word)
+            {
 
-        <MudText Typo="Typo.h2" Align="Align.Left">@definition.Word.ToLower()</MudText>
-        @if (definition.Abbreviation != definition.Word)
-        {
-            <MudText Typo="Typo.h6" Align="Align.Left" GutterBottom="true">@definition.Abbreviation.ToLower()</MudText>
-        }
-    
+                <MudText Typo="Typo.h5" Class="ml-1 mt-5">(@definition.Abbreviation.ToLower())</MudText>
+            }
+        </div>
 
-    
-        <MudLink Href="@($"{definition.Author.Link}")" Color="MudBlazor.Color.Secondary" Underline="Underline.Always">@definition.Author.Name</MudLink>
-        
-     
+        <MudText Typo="Typo.h5" Class="ml-0 mt-3 mb-4">
+            <MudLink Href="@($"{definition.Author.Link}")" Color="MudBlazor.Color.Secondary" Underline="Underline.Always">
+                @definition.Author.Name</MudLink>
+        </MudText>
+
         <MudText Align="Align.Justify" GutterBottom="true">@definition.Content</MudText>
 
-        <MudLink Href="@($"{definition.LearnMoreUrl}")">Learn More</MudLink>
+        <MudText Typo="Typo.h5" Class="ml-0 mt-3 mb-4">
+            <MudLink Href="@($"{definition.LearnMoreUrl}")">learn more</MudLink>
+        </MudText>
 
-        <MudDivider DividerType="DividerType.FullWidth" Class="mt-4"/>
+        <MudDivider DividerType="DividerType.FullWidth" Class="mt-5" />
 
-  
+
         <div class="d-flex justify-left">
 
             <MudText Typo="Typo.h4" Class="ml-1 mt-5" Color="Color.Default"> explore more:
             </MudText>
+
         </div>
 
         <MudGrid Class="mt-2">
-            
+
 
             @foreach (var word in words)
             {
                 var wordSlug = WebUtility.UrlEncode(word.Word.Replace("-", "__").Replace(" ", "-"));
-                <MudItem xs="12" sm="6" md="4">
-                    
-                            <MudText Class="my-2" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" 
-                                    Color="Color.Default" Typo="Typo.h6">@word.Word.ToLower()</MudLink>
-                            </MudText>
-                        
+                <MudItem xs="12" sm="12" md="12">
+
+                    <MudText Class="my-2" Align="Align.Center" Color="Color.Default">
+                        <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Color="Color.Default" Typo="Typo.h6">
+                            @word.Word.ToLower()</MudLink>
+                    </MudText>
+
                 </MudItem>
             }
         </MudGrid>
