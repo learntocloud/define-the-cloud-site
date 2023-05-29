@@ -13,27 +13,20 @@ else
 {
     <MudContainer Class="mt-16">
 
-<MudText Typo="Typo.h2" Align="Align.Center" GutterBottom="true">defintions with @SearchTerm in them</MudText>
+<MudText Typo="Typo.h2" Align="Align.Center" GutterBottom="true">defintions with <i>@SearchTerm</i> in them</MudText>
 
         <MudGrid Class="mt-8">
             @foreach (var definition in definitions)
             {
                 var wordSlug = WebUtility.UrlEncode(definition.Word.Replace("-", "__").Replace(" ", "-"));
                 wordSlug = wordSlug.ToLower();
-                <MudItem xs="12" sm="6" md="4">
-                    <MudCard>
-                        <MudCardContent>
+                <MudItem xs="12" sm="12" md="12">
+                    
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
                                 <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
                                     Color="Color.Default">@definition.Word.ToLower()</MudLink>
                             </MudText>
-                            <MudText Typo="Typo.body2" Class="my-5" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover"
-                                    Color="Color.Default">@definition.Author.Name</MudLink>
-                            </MudText>
-
-                        </MudCardContent>
-                    </MudCard>
+                        
                 </MudItem>
             }
         </MudGrid>
