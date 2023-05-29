@@ -6,10 +6,10 @@
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
             OnClick="@((e) => DrawerToggle())" />
-            <MudNavLink Href="/">
-    <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" />
-</MudNavLink>
-    
+        <MudNavLink Href="/">
+            <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" />
+        </MudNavLink>
+
 
         <MudSpacer />
         <MudHidden Breakpoint="MudBlazor.Breakpoint.MdAndUp" Invert="true">
@@ -18,9 +18,9 @@
                     OnClick="@((e) => DarkMode())" />
 
             </MudTooltip>
-            <MudTooltip Text="Check out the repo">
+            <MudTooltip Text="Submit your own definition">
                 <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit"
-                    Link="https://github.com/madebygps/cloud-dictionary-site" Target="_blank" />
+                    Link="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank" />
             </MudTooltip>
 
         </MudHidden>
@@ -54,6 +54,8 @@
             <MudFab Icon="@Icons.Material.Filled.KeyboardArrowUp" Color="MudBlazor.Color.Primary" />
         </MudScrollToTop>
     </MudMainContent>
+
+
 </MudLayout>
 
 @code {
@@ -63,7 +65,7 @@
     {
         _drawerOpen = !_drawerOpen;
     }
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
         _currentTheme = _defaultTheme;
 
@@ -86,7 +88,7 @@
 
     private MudTheme _currentTheme = new MudTheme();
     private readonly MudTheme _defaultTheme =
-        new MudTheme()
+    new MudTheme()
         {
             Palette = new Palette()
             {
@@ -94,7 +96,7 @@
             }
         };
     private readonly MudTheme _darkTheme =
-        new MudTheme()
+    new MudTheme()
         {
             Palette = new Palette()
             {

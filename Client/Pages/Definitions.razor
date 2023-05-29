@@ -1,9 +1,9 @@
-@page "/definitions"
+@page "/definitions/{SearchTerm}"
 @inject HttpClient Http
 @using System.Net
 
 
-@if (words == null)
+@if (definitions == null)
 {
     <MudContainer Class="mt-16">
         <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
@@ -11,37 +11,27 @@
 }
 else
 {
-    <MudContainer Class="mt-4">
+    <MudContainer Class="mt-16">
 
-        <div class="d-flex justify-center">
-            <MudText Typo="Typo.h3" Color="Color.Primary">@words.Count()</MudText>
-            <MudText Typo="Typo.h5" Class="ml-1 mt-5" Color="Color.Default">definitions</MudText>
-        </div>
-
-        <MudTextField @bind-Value="searchTerm" Placeholder="Search" Adornment="Adornment.Start"
-            AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"
-        @bind-Value:event="TextChanged" Immediate="true">
-        </MudTextField>
+<MudText Typo="Typo.h2" Align="Align.Center" GutterBottom="true">defintions with @SearchTerm in them</MudText>
 
         <MudGrid Class="mt-8">
-            @foreach (var item in searchResults)
+            @foreach (var definition in definitions)
             {
-                
-
-                var wordSlug = WebUtility.UrlEncode(item.Word.Replace("-", "__").Replace(" ", "-"));
+                var wordSlug = WebUtility.UrlEncode(definition.Word.Replace("-", "__").Replace(" ", "-"));
                 wordSlug = wordSlug.ToLower();
                 <MudItem xs="12" sm="6" md="4">
                     <MudCard>
                         <MudCardContent>
                             <MudText Typo="Typo.h6" Class="my-5" Align="Align.Center" Color="Color.Default">
                                 <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Typo="Typo.h6"
-                                    Color="Color.Default">@item.Word.ToLower()</MudLink>
+                                    Color="Color.Default">@definition.Word.ToLower()</MudLink>
                             </MudText>
                             <MudText Typo="Typo.body2" Class="my-5" Align="Align.Center" Color="Color.Default">
-                                <MudLink Href="@($"{item.Author.Link}")" Underline="Underline.Hover"
-                                    Color="Color.Default">@item.Author.Name</MudLink>
+                                <MudLink Href="@($"{definition.Author.Link}")" Underline="Underline.Hover"
+                                    Color="Color.Default">@definition.Author.Name</MudLink>
                             </MudText>
-                            
+
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
@@ -51,16 +41,16 @@ else
 }
 
 @code {
-    private WordDefinition[] words;
-    private string searchTerm { get; set; }
 
-
+    [Parameter]
+    public string? SearchTerm { get; set; }
+    private WordDefinition[] definitions;
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            words = await
-            Http.GetFromJsonAsync<WordDefinition[]>("https://clouddictionary.azurewebsites.net/api/GetDefinitions?code=NY6FWq01qRLmK19uB84elyyH6AvVeU3ycoe0B641xHL3AzFue4o5gA==")
+            definitions = await
+            Http.GetFromJsonAsync<WordDefinition[]>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}")
             ?? new WordDefinition[] { };
 
         }
@@ -69,11 +59,4 @@ else
             Console.WriteLine(ex.ToString());
         }
     }
-    private IEnumerable<WordDefinition> searchResults =>
-    words.Where(p => string.IsNullOrEmpty(searchTerm)
-    || p.Word.ToLower().Contains(searchTerm.ToLower()) || p.Author.Name.ToLower().Contains(searchTerm.ToLower())
-    || p.Tag.ToLower().Contains(searchTerm.ToLower())
-    );
-
-
 }
