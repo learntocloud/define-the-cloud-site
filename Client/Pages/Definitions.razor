@@ -42,9 +42,12 @@ else
     {
         try
         {
-            definitions = await
-            Http.GetFromJsonAsync<WordDefinition[]>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}")
-            ?? new WordDefinition[] { };
+
+            Root dataDefinitions = await
+            Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}")
+            ?? new Root { };
+
+            definitions = dataDefinitions.Data.ToArray();
 
         }
         catch (Exception ex)
@@ -52,4 +55,12 @@ else
             Console.WriteLine(ex.ToString());
         }
     }
+
+
+
+
+    
+
+
+
 }

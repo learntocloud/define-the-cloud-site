@@ -2,27 +2,6 @@
 @inject HttpClient Http
 @using System.Net
 
-@code {
-    [Parameter]
-    public string? WordSlug { get; set; }
-    private WordDefinition[] words;
-    private WordDefinition? definition;
-    protected override async Task OnParametersSetAsync()
-    {
-        var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
-        definition = await
-        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
-
-        words = await
-        Http.GetFromJsonAsync<WordDefinition[]>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=10")
-        ?? new WordDefinition[] { };
-
-        //https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==
-
-    }
-}
-
-
 @if (definition == null)
 {
     <MudContainer Class="mt-16">
@@ -81,4 +60,27 @@ else
             }
         </MudGrid>
     </MudContainer>
+}
+
+@code {
+    [Parameter]
+    public string? WordSlug { get; set; }
+    private WordDefinition[] words;
+    private WordDefinition? definition;
+    protected override async Task OnParametersSetAsync()
+    {
+        var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
+        definition = await
+        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
+            
+
+        Root datawords = await
+        Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=10")
+        ?? new Root { };
+
+        words = datawords.Data.ToArray();
+
+        //https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==
+
+    }
 }
