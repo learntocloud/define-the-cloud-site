@@ -3,17 +3,19 @@
 @using System.Net
 
 
-@if (definitions == null)
-{
-    <MudContainer Class="mt-16">
-        <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
-    </MudContainer>
-}
-else
-{
-    <MudContainer Class="mt-16">
+<MudContainer Class="mt-16">
 
 <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">definition(s) with <i>@SearchTerm.ToLower()</i> in them</MudText>
+
+@if (definitions == null && !definitionNotFound )
+{
+   
+        <MudProgressLinear Color="MudBlazor.Color.Primary" Indeterminate="true" Class="my-4" />
+ 
+}
+else if (definitions != null )
+{
+ 
 
         <MudGrid Class="mt-8">
             @foreach (var definition in definitions)
@@ -30,30 +32,44 @@ else
                 </MudItem>
             }
         </MudGrid>
-    </MudContainer>
+  
 }
-
+  </MudContainer>
 @code {
 
     [Parameter]
     public string? SearchTerm { get; set; }
     private WordDefinition[] definitions;
+
+    // Add this to your class
+private bool definitionNotFound = false;
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            HttpResponseMessage response = await Http.GetAsync($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}");
 
-            Root dataDefinitions = await
-            Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}")
-            ?? new Root { };
-
-            definitions = dataDefinitions.Data.ToArray();
-
+            if (response.IsSuccessStatusCode)
+            {
+                Root dataDefinitions = await response.Content.ReadFromJsonAsync<Root>() ?? new Root { };
+                definitions = dataDefinitions.Data.ToArray();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                var errorResponse = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+                Console.WriteLine(errorResponse.Error);
+                definitionNotFound = true;
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
+    }
+
+    public class ErrorResponse
+    {
+        public string Error { get; set; }
     }
 
 
