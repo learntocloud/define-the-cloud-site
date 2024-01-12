@@ -18,13 +18,13 @@
             </MudTooltip>
             <MudTooltip Text="Submit your own definition">
                 <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit"
-                    Link="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank" />
+                    Href="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank" />
             </MudTooltip>
 
         </MudHidden>
         <MudHidden Breakpoint="MudBlazor.Breakpoint.SmAndDown" Invert="true">
-            <MudMenu Icon="@Icons.Filled.Settings" Color="MudBlazor.Color.Inherit" Dense="true"
-                Direction="MudBlazor.Direction.Right" OffsetY="true">
+            <MudMenu Icon="@Icons.Material.Filled.Settings" Color="MudBlazor.Color.Inherit" Dense="true"
+                TransformOrigin="MudBlazor.Origin.CenterRight" Origin.OffsetY="true">
                 <div class="px-2">
                     <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="MudBlazor.Color.Inherit"
                         OnClick="@((e) => DarkMode())" />
@@ -49,7 +49,7 @@
         </MudContainer>
 
         <MudScrollToTop TopOffset="400">
-            <MudFab Icon="@Icons.Material.Filled.KeyboardArrowUp" Color="MudBlazor.Color.Primary" />
+            <MudFab StartIcon="@Icons.Material.Filled.KeyboardArrowUp" Color="MudBlazor.Color.Primary" />
         </MudScrollToTop>
     </MudMainContent>
 
@@ -88,7 +88,7 @@
     private readonly MudTheme _defaultTheme =
     new MudTheme()
         {
-            Palette = new Palette()
+            Palette = new PaletteLight()
             {
                 Black = "#272c34",
                 AppbarBackground = Colors.Blue.Default,
@@ -97,7 +97,7 @@
     private readonly MudTheme _darkTheme =
     new MudTheme()
         {
-            Palette = new Palette()
+            Palette = new PaletteDark()
             {
                 Black = "#27272f",
                 Background = Colors.Grey.Darken4,
