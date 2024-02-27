@@ -2,7 +2,7 @@
   "name": "blazor-basic",
   "version": "1.0.0",
   "scripts": {
-    "start" : "dotnet run --project Client",
+    "start" : "dotnet run --project Dictionary",
     "playwright_test" : "playwright test"
   },
  "devDependencies": {

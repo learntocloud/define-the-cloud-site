@@ -22,26 +22,32 @@ else
             }
         </div>
 
-        <MudText Typo="Typo.h5" Class="ml-0 mt-3 mb-4">
+        <MudText Typo="Typo.h5" Class="ml-0 mt-1 mb-3">
             <MudLink Href="@($"{definition.Author.Link}")" Color="MudBlazor.Color.Secondary" Underline="Underline.Always">
                 @definition.Author.Name</MudLink>
         </MudText>
 
         <MudText Align="Align.Justify" GutterBottom="true">@definition.Content</MudText>
 
-        <MudText Typo="Typo.h5" Class="ml-0 mt-3 mb-4">
+        <MudText Typo="Typo.h5" Class="ml-0 mt-2 mb-4">
             <MudLink Href="@($"{definition.LearnMoreUrl}")">learn more</MudLink>
         </MudText>
 
+
+
+         <MudText Typo="Typo.h5" Align="Align.Left" Class="ml-0 mt-0">Project Idea</MudText>
+        <MudText Align="Align.Justify" GutterBottom="true" Class="ml-0 mt-3">@project.Description</MudText>
+
+
         <MudDivider DividerType="DividerType.FullWidth" Class="mt-5" />
-
-
         <div class="d-flex justify-left">
 
             <MudText Typo="Typo.h4" Class="ml-1 mt-5" Color="Color.Default"> explore more in the <i>@definition.Tag</i> tag:
             </MudText>
 
         </div>
+
+
 
         <MudGrid Class="mt-2">
 
@@ -59,6 +65,10 @@ else
                 </MudItem>
             }
         </MudGrid>
+
+
+
+
     </MudContainer>
 }
 
@@ -67,18 +77,23 @@ else
     public string? WordSlug { get; set; }
     private WordDefinition[] words;
     private WordDefinition? definition;
+    private Project project;
     protected override async Task OnParametersSetAsync()
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
         definition = await
         Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
-            
+
 
         Root datawords = await
-        Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=10")
+        Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=5")
         ?? new Root { };
 
         words = datawords.Data.ToArray();
+
+        project = await
+        Http.GetFromJsonAsync<Project>($"https://clouddictionary.azurewebsites.net/api/GetProjectByWord?code=sX1Jw6B_SHP4UJHq2EMYhujcvEAhANyAaX2p-3cGw2r3AzFumYXwsA==&word={Word}");
+
 
         //https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==
 
