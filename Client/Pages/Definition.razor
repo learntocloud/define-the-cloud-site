@@ -1,7 +1,9 @@
 @page "/{WordSlug}"
 @inject HttpClient Http
 @inject IConfiguration Configuration
+@inject IWebAssemblyHostEnvironment HostEnvironment
 @using System.Net
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
 @if (definition == null)
 {
