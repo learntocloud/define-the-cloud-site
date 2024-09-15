@@ -1,5 +1,6 @@
 @page "/{WordSlug}"
 @inject HttpClient Http
+@inject IConfiguration Configuration
 @using System.Net
 
 @if (definition == null)
@@ -78,24 +79,23 @@ else
     private WordDefinition[] words;
     private WordDefinition? definition;
     private Project project;
+
     protected override async Task OnParametersSetAsync()
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
-        definition = await
-        Http.GetFromJsonAsync<WordDefinition>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
 
+        var apiBaseUrl = Configuration["ApiSettings:BaseUrl"];
+        var definitionApiKey = Configuration["ApiSettings:DefinitionApiKey"];
+        var tagApiKey = Configuration["ApiSettings:TagApiKey"];
+        var projectApiKey = Configuration["ApiSettings:ProjectApiKey"];
 
-        Root datawords = await
-        Http.GetFromJsonAsync<Root>($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==&tag={definition?.Tag}&batchSize=5")
-        ?? new Root { };
+        definition = await Http.GetFromJsonAsync<WordDefinition>($"{apiBaseUrl}/GetDefinitionByWord?code={definitionApiKey}&word={Word}");
+
+        Root datawords = await Http.GetFromJsonAsync<Root>($"{apiBaseUrl}/GetDefinitionsByTag?code={tagApiKey}&tag={definition?.Tag}&batchSize=5")
+            ?? new Root { };
 
         words = datawords.Data.ToArray();
 
-        project = await
-        Http.GetFromJsonAsync<Project>($"https://clouddictionary.azurewebsites.net/api/GetProjectByWord?code=sX1Jw6B_SHP4UJHq2EMYhujcvEAhANyAaX2p-3cGw2r3AzFumYXwsA==&word={Word}");
-
-
-        //https://clouddictionary.azurewebsites.net/api/GetDefinitionsByTag?code=oc84h9mpvgySd_8EUxy8rzp-AA5M_DhyOTB1_QoNr5ksAzFuDrMJSQ==
-
+        project = await Http.GetFromJsonAsync<Project>($"{apiBaseUrl}/GetProjectByWord?code={projectApiKey}&word={Word}");
     }
 }
