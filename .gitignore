@@ -17,3 +17,4 @@ node_modules/
 /playwright-report/
 /playwright/.cache/
 /DefineTheCloud.csproj.user
+/Client/wwwroot/appsettings.json
