@@ -18,3 +18,6 @@ node_modules/
 /playwright/.cache/
 /DefineTheCloud.csproj.user
 /Client/wwwroot/appsettings.json
+/Client/wwwroot/appsettings.development.json
+/Client/wwwroot/appsettings.development.json
+/Client/appsettings.Development.json
