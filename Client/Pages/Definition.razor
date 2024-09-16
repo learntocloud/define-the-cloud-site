@@ -4,6 +4,10 @@
 @inject IWebAssemblyHostEnvironment HostEnvironment
 @using System.Net
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Newtonsoft.Json
+   @using Newtonsoft.Json;
+@using System.Net.Http.Headers;
+
 
 @if (definition == null)
 {
@@ -83,7 +87,10 @@ else
     private Project project;
     private CloudProjectIdea cloudProjectIdea;
 
-    protected override async Task OnParametersSetAsync()
+ 
+protected override async Task OnParametersSetAsync()
+    {
+    try
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
 
@@ -94,14 +101,91 @@ else
         var tagApiKey = Configuration["ApiSettings:TagApiKey"];
         var projectApiKey = Configuration["ApiSettings:ProjectApiKey"];
 
-        definition = await Http.GetFromJsonAsync<WordDefinition>($"{apiBaseUrl}/GetDefinitionByWord?code={definitionApiKey}&word={Word}");
+        // GetDefinitionByWord
+        var definitionResponse = await Http.GetAsync($"{apiBaseUrl}/GetDefinitionByWord?code={definitionApiKey}&word={Word}");
+        if (definitionResponse.IsSuccessStatusCode)
+        {
+            var content = await definitionResponse.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                definition = JsonConvert.DeserializeObject<WordDefinition>(content);
+            }
+            else
+            {
+                Console.WriteLine("GetDefinitionByWord returned empty content");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"GetDefinitionByWord failed with status code: {definitionResponse.StatusCode}");
+        }
 
-        Root datawords = await Http.GetFromJsonAsync<Root>($"{apiBaseUrl}/GetDefinitionsByTag?code={tagApiKey}&tag={definition?.Tag}&batchSize=5")
-            ?? new Root { };
+        // GetDefinitionsByTag
+        if (definition?.Tag != null)
+        {
+            var tagResponse = await Http.GetAsync($"{apiBaseUrl}/GetDefinitionsByTag?code={tagApiKey}&tag={definition.Tag}&batchSize=5");
+            if (tagResponse.IsSuccessStatusCode)
+            {
+                var content = await tagResponse.Content.ReadAsStringAsync();
+                if (!string.IsNullOrWhiteSpace(content))
+                {
+                    var datawords = JsonConvert.DeserializeObject<Root>(content);
+                    words = datawords?.Data?.ToArray() ?? Array.Empty<WordDefinition>();
+                }
+                else
+                {
+                    Console.WriteLine("GetDefinitionsByTag returned empty content");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"GetDefinitionsByTag failed with status code: {tagResponse.StatusCode}");
+            }
+        }
 
-        words = datawords.Data.ToArray();
+        // GetProjectByWord
+        var projectResponse = await Http.GetAsync($"{apiBaseUrl}/GetProjectByWord?code={projectApiKey}&word={Word}");
+        if (projectResponse.IsSuccessStatusCode)
+        {
+            var content = await projectResponse.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                project = JsonConvert.DeserializeObject<Project>(content);
+            }
+            else
+            {
+                Console.WriteLine("GetProjectByWord returned empty content");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"GetProjectByWord failed with status code: {projectResponse.StatusCode}");
+        }
 
-        project = await Http.GetFromJsonAsync<Project>($"{apiBaseUrl}/GetProjectByWord?code={projectApiKey}&word={Word}");
-        cloudProjectIdea = await Http.GetFromJsonAsync<CloudProjectIdea>($"{projectGeneratorBaseUrl}/GenerateProjectFromConcept?code={projectGeneratorApiKey}&concept={Word}");
+        // GenerateProjectFromConcept
+        var cloudProjectResponse = await Http.GetAsync($"{projectGeneratorBaseUrl}/GenerateProjectFromConcept?code={projectGeneratorApiKey}&concept={Word}");
+        if (cloudProjectResponse.IsSuccessStatusCode)
+        {
+            var content = await cloudProjectResponse.Content.ReadAsStringAsync();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                cloudProjectIdea = JsonConvert.DeserializeObject<CloudProjectIdea>(content);
+            }
+            else
+            {
+                Console.WriteLine("GenerateProjectFromConcept returned empty content");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"GenerateProjectFromConcept failed with status code: {cloudProjectResponse.StatusCode}");
+        }
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+        // You might want to set an error state here to display to the user
+    }
+    
 }
+}   
