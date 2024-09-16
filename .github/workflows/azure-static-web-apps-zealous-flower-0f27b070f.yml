@@ -21,6 +21,16 @@ jobs:
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
+        env:
+          BaseURL: ${{ secrets.BaseUrl }}
+          DefinitionApiKey: ${{ secrets.DefinitionApiKey }}
+          TagApiKey: ${{ secrets.TagApiKey }}
+          ProjectApiKey: ${{ secrets.ProjectApiKey }}
+          ProjectGeneratorBaseUrl: ${{ secrets.ProjectGeneratorBaseUrl }}
+          ProjectGeneratorApiKey: ${{ secrets.ProjectGeneratorApiKey }}
+          
+          
+          # Add more secret environment variables here as needed
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_FLOWER_0F27B070F }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
