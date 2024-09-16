@@ -4,8 +4,9 @@
 @inject IWebAssemblyHostEnvironment HostEnvironment
 @using System.Net
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Microsoft.Extensions.Options
 @using Newtonsoft.Json
-   @using Newtonsoft.Json;
+@inject IOptions<ApiSettings> ApiSettings
 @using System.Net.Http.Headers;
 
 
@@ -93,6 +94,8 @@ protected override async Task OnParametersSetAsync()
     try
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
+
+
 
         var apiBaseUrl = Configuration["ApiSettings:BaseUrl"];
         var projectGeneratorBaseUrl = Configuration["ApiSettings:ProjectGeneratorBaseUrl"];
