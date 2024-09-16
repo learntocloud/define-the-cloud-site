@@ -36,41 +36,41 @@ else
             <MudLink Href="@($"{definition.LearnMoreUrl}")">learn more</MudLink>
         </MudText>
 
-
-
-         <MudText Typo="Typo.h5" Align="Align.Left" Class="ml-0 mt-0">Project Idea</MudText>
-        <MudText Align="Align.Justify" GutterBottom="true" Class="ml-0 mt-3">@project.Description</MudText>
-
-
         <MudDivider DividerType="DividerType.FullWidth" Class="mt-5" />
-        <div class="d-flex justify-left">
 
-            <MudText Typo="Typo.h4" Class="ml-1 mt-5" Color="Color.Default"> explore more in the <i>@definition.Tag</i> tag:
-            </MudText>
-
-        </div>
+        <MudText Typo="Typo.h5" Align="Align.Left" Class="ml-0 mt-0">Project Idea: @cloudProjectIdea.Title </MudText>
+        <MudText Align="Align.Justify" GutterBottom="true" Class="ml-0 mt-3">@cloudProjectIdea.Description</MudText>
+        
 
 
-
-        <MudGrid Class="mt-2">
-
-
-            @foreach (var word in words)
+            @foreach (var step in cloudProjectIdea.Steps)
             {
-                var wordSlug = WebUtility.UrlEncode(word.Word.Replace("-", "__").Replace(" ", "-"));
+                
                 <MudItem xs="12" sm="12" md="12">
 
-                    <MudText Class="my-2" Align="Align.Center" Color="Color.Default">
-                        <MudLink Href="@($"/{wordSlug}")" Underline="Underline.Hover" Color="Color.Default" Typo="Typo.h6">
-                            @word.Word.ToLower()</MudLink>
+                    <MudText Class="my-2" Align="Align.Left" Color="Color.Default">
+                        @step
                     </MudText>
 
                 </MudItem>
             }
-        </MudGrid>
+       
+        
 
 
+            
+                <MudItem xs="12" sm="12" md="12">
 
+                    <MudText Class="my-2" Align="Align.Left" Color="Color.Default">
+                        <MudLink Href="@($"/{cloudProjectIdea.Resources.FirstOrDefault()}")" Underline="Underline.Hover" Color="Color.Default" Typo="Typo.h6">
+                            Resources
+                        </MudLink>
+                    </MudText>
+
+                </MudItem>
+           
+
+       
 
     </MudContainer>
 }
@@ -81,12 +81,15 @@ else
     private WordDefinition[] words;
     private WordDefinition? definition;
     private Project project;
+    private CloudProjectIdea cloudProjectIdea;
 
     protected override async Task OnParametersSetAsync()
     {
         var Word = WebUtility.UrlDecode(WordSlug).Replace("-", " ").Replace("__", "-");
 
         var apiBaseUrl = Configuration["ApiSettings:BaseUrl"];
+        var projectGeneratorBaseUrl = Configuration["ApiSettings:ProjectGeneratorBaseUrl"];
+        var projectGeneratorApiKey = Configuration["ApiSettings:ProjectGeneratorApiKey"];
         var definitionApiKey = Configuration["ApiSettings:DefinitionApiKey"];
         var tagApiKey = Configuration["ApiSettings:TagApiKey"];
         var projectApiKey = Configuration["ApiSettings:ProjectApiKey"];
@@ -99,5 +102,6 @@ else
         words = datawords.Data.ToArray();
 
         project = await Http.GetFromJsonAsync<Project>($"{apiBaseUrl}/GetProjectByWord?code={projectApiKey}&word={Word}");
+        cloudProjectIdea = await Http.GetFromJsonAsync<CloudProjectIdea>($"{projectGeneratorBaseUrl}/GenerateProjectFromConcept?code={projectGeneratorApiKey}&concept={Word}");
     }
 }
