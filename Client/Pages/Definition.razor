@@ -96,12 +96,12 @@ protected override async Task OnParametersSetAsync()
 
 
 
-        var apiBaseUrl = Configuration["ApiSettings:BaseUrl"];
-        var projectGeneratorBaseUrl = Configuration["ApiSettings:ProjectGeneratorBaseUrl"];
-        var projectGeneratorApiKey = Configuration["ApiSettings:ProjectGeneratorApiKey"];
-        var definitionApiKey = Configuration["ApiSettings:DefinitionApiKey"];
-        var tagApiKey = Configuration["ApiSettings:TagApiKey"];
-        var projectApiKey = Configuration["ApiSettings:ProjectApiKey"];
+        var apiBaseUrl = Configuration["BaseUrl"];
+        var projectGeneratorBaseUrl = Configuration["ProjectGeneratorBaseUrl"];
+        var projectGeneratorApiKey = Configuration["ProjectGeneratorApiKey"];
+        var definitionApiKey = Configuration["DefinitionApiKey"];
+        var tagApiKey = Configuration["TagApiKey"];
+        var projectApiKey = Configuration["ProjectApiKey"];
 
         // GetDefinitionByWord
         var definitionResponse = await Http.GetAsync($"{apiBaseUrl}/GetDefinitionByWord?code={definitionApiKey}&word={Word}");
