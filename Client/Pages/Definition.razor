@@ -72,7 +72,9 @@ protected override async Task OnParametersSetAsync()
         var projectApiKey = Configuration["ProjectApiKey"];
 
         // GetDefinitionByWord
-            var definitionResponse = await Http.GetAsync($"https://clouddictionary.azurewebsites.net/api/GetDefinitionByWord?code=ZaYPEsrv8ycB83xO9TcjhsVl8F5fiCQ24xiBRP7mV0X9AzFuj4-_BQ==&word={Word}");
+            var definitionResponse = await Http.GetAsync($"https://definethecloudapi-bwh8aehvcgdgg2fq.eastus2-01.azurewebsites.net/api/GetDefinitionByWord?code=XlXQlgRImEv2tnIt5zldobsLt6fom4B19c4NaA_sEDGaAzFuX45uwg%3D%3D&word={Word}");
+
+            
         if (definitionResponse.IsSuccessStatusCode)
         {
             var content = await definitionResponse.Content.ReadAsStringAsync();

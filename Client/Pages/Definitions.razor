@@ -47,7 +47,7 @@ private bool definitionNotFound = false;
     {
         try
         {
-            HttpResponseMessage response = await Http.GetAsync($"https://clouddictionary.azurewebsites.net/api/GetDefinitionsBySearch?code=n4N4kQ2KJfeZqgEpyXz8jUgBxIPo_LytEg46KPacIB0XAzFuu3gzlQ==&searchTerm={SearchTerm}");
+            HttpResponseMessage response = await Http.GetAsync($"https://definethecloudapi-bwh8aehvcgdgg2fq.eastus2-01.azurewebsites.net/api/GetDefinitionsBySearch?code=XlXQlgRImEv2tnIt5zldobsLt6fom4B19c4NaA_sEDGaAzFuX45uwg%3D%3D&searchTerm={SearchTerm}");
 
             if (response.IsSuccessStatusCode)
             {
