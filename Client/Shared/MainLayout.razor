@@ -7,6 +7,7 @@
         <MudNavLink Href="/">
             <MudIconButton Icon="@Icons.Material.Filled.Home" Color="Color.Inherit" Edge="Edge.Start" />
         </MudNavLink>
+        
 
 
         <MudSpacer />
@@ -14,11 +15,14 @@
             <MudTooltip Text="Toggle light/dark theme">
                 <MudIconButton Icon="@Icons.Material.Filled.Brightness4" Color="MudBlazor.Color.Inherit"
                     OnClick="@((e) => DarkMode())" />
-
             </MudTooltip>
             <MudTooltip Text="Submit your own definition">
                 <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit"
                     Href="https://github.com/learntocloud/cloud-dictionary/issues/new/choose" Target="_blank" />
+            </MudTooltip>
+            <MudTooltip Text="Go to learntocloud">
+                <MudIconButton Icon="@Icons.Material.Filled.Cloud" Color="MudBlazor.Color.Inherit"
+                    Href="https://learntocloud.guide" Target="_blank" />
             </MudTooltip>
 
         </MudHidden>
@@ -30,6 +34,9 @@
                         OnClick="@((e) => DarkMode())" />
 
                     <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="MudBlazor.Color.Inherit" />
+              
+            <MudIconButton Icon="@Icons.Material.Filled.Cloud" Color="Color.Inherit" />
+        
                 </div>
             </MudMenu>
         </MudHidden>
